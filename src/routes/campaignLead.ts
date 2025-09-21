@@ -14,15 +14,4 @@ routerCL.put("/campaigns/:campaignId/leads/:leadId", campaignLeadsController.upd
 routerCL.delete("/campaigns/:campaignId/leads/:leadId", campaignLeadsController.removeLead)
 
 
-// STATUS
-routerCL.get("/status", async (req, res, next) => {
-  try {
-    res.json({ message: "OK" })
-  } catch (error) {
-    next(error)
-  }
-})
-
-
-
 export { routerCL }
