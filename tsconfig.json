@@ -1,0 +1,11 @@
+{
+  "compilerOptions": { 
+    "outDir": "./build",
+    "module": "commonjs",
+    "target": "esnext",
+    "strict": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true
+  }
+}
