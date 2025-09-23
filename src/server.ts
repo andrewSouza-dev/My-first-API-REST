@@ -5,6 +5,7 @@ import { errorHandlerMiddleware } from "./middlewares/errorHandler"
 import { routerG } from "./routes/groups"
 import { routerC } from "./routes/campaign"
 import { routerCL } from "./routes/campaignLead"
+import { routerGL } from "./routes/groupLead"
 
 const app = express()
 
@@ -15,6 +16,7 @@ app.use("/api/leads", routerL)
 app.use("/api/groups", routerG)
 app.use("/api/campaigns", routerC)
 app.use("/api/campaignsLeads", routerCL)
+app.use("/api/groups/:groupId/leads", routerGL)
 
 app.use(errorHandlerMiddleware)
 

@@ -1,12 +1,10 @@
 import { Router } from "express";
-import { GroupLeadsController } from "../controllers/GroupLeadsController";
+import { groupLeadControll } from "../../containers/groupLeadContainer";
 
-export const RouterGL = Router()
-
-const groupLeadControll = new GroupLeadsController
+export const routerGL = Router()
 
 
 // ROUTES GroupsLeads
-RouterGL.get("/groups/:groupId/leads", groupLeadControll.getAllLeads)
-RouterGL.post("/groups/:groupId/leads", groupLeadControll.addLead)
-RouterGL.delete("/groups/:groupId/leads/:leadId", groupLeadControll.removeLead)
+routerGL.get("/", groupLeadControll.getAllLeads)
+routerGL.post("/", groupLeadControll.addLead)
+routerGL.delete("/:leadId", groupLeadControll.removeLead)

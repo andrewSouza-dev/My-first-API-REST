@@ -1,10 +1,7 @@
 import { Router } from "express";
-import { leadsController } from "../controllers/leadsController";
-
+import { leadControll } from "../../containers/leadContainer";
 
 const routerL = Router()
-
-const leadControll = new leadsController()
 
 
 // ROUTES LEADS
@@ -13,8 +10,6 @@ routerL.get("/:id", leadControll.show)
 routerL.post("/", leadControll.create)
 routerL.put("/:id", leadControll.update)
 routerL.delete("/:id", leadControll.delete)
-
-
 
 
 export { routerL }

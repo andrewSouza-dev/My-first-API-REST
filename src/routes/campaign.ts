@@ -1,16 +1,16 @@
 import { Router } from "express";
-import { CaimpaignController } from "../controllers/campaignsController";
+import { campaignControll } from "../../containers/compaignContainer";
+
 
 const routerC = Router()
-const caimpaignControll = new CaimpaignController
 
 
 //ROUTES CAMPAIGN
-routerC.get("/", caimpaignControll.index)
-routerC.get("/:id", caimpaignControll.show)
-routerC.post("/", caimpaignControll.create)
-routerC.put("/:id", caimpaignControll.update)
-routerC.delete("/:id", caimpaignControll.delete)
+routerC.get("/", campaignControll.index)
+routerC.get("/:id", campaignControll.show)
+routerC.post("/", campaignControll.create)
+routerC.put("/:id", campaignControll.update)
+routerC.delete("/:id", campaignControll.delete)
 
 
 export { routerC }
