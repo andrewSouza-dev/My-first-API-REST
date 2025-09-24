@@ -1,6 +1,5 @@
 import { Handler } from "express";
 import { CreateGroupRequestSchema, UpdateGroupRequestSchema } from "./schemas/GroupsRequestSchema";
-import { GroupsRepository } from "../repositories/GroupsRepository";
 import { GroupServices } from "../services/GroupService";
 
 export class GroupsController {

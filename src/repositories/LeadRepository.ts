@@ -9,10 +9,10 @@ export interface LeadWhereParams{
     equals?: string
     mode?: "default" | "insensitive"
   }
-  status?: LeadsStatus
+  status?: LeadsStatus | LeadCampaignStatus
   campaignStatus?: LeadCampaignStatus
   groupId?: number
-  campaingId?: number
+  campaignId?: number
 }
 
 
@@ -25,6 +25,12 @@ export interface FindLeadsParams {
     include?: {
       groups?: boolean
       campaigns?: boolean
+    }
+    select?: {
+      id?: boolean
+      name?: boolean
+      status?: boolean
+      campaignId?: boolean
     }
 }
 

@@ -23,20 +23,20 @@ export class GroupServices {
     }
 
 
-    async update (groupId: number, params: Partial<CreateGroupAttributes>) {
-        const group = await this.groupsRepository.findById(groupId)
+    async update (id: number, params: Partial<CreateGroupAttributes>) {
+        const group = await this.groupsRepository.findById(id)
         if(!group) throw new HttpError(404, "Grupo não encontrado!")
 
-        const updateGroup = await this.groupsRepository.updateById(groupId, params)
+        const updateGroup = await this.groupsRepository.updateById(id, params)
         return updateGroup
     }
 
 
-    async delete (groupId: number) {
-        const group = this.groupsRepository.findById(groupId)
+    async delete (id: number) {
+        const group = this.groupsRepository.findById(id)
         if(!group) throw new HttpError(404, "Grupo não encontrado!")
 
-        const deleteGroup = await this.groupsRepository.deleteById(groupId)
+        const deleteGroup = await this.groupsRepository.deleteById(id)
         return deleteGroup
     }
     
