@@ -1,75 +1,43 @@
 import { Handler } from "express";
-import { HttpError } from "../errors/HttpError";
 import { CreateLeadRequestSchema, GetLeadsRequestSchema, UpdateLeadRequestSchema,} from "./schemas/LeadsRequestSchema";
-import { LeadsRepository, LeadWhereParams } from "../repositories/LeadRepository";
+import { LeadsServices } from "../services/LeadsService";
 
 
 export class leadsController {
-  private leadsRepository: LeadsRepository
-
-  constructor(leadsRepository: LeadsRepository) {
-    this.leadsRepository = leadsRepository
-  }
+  constructor(private readonly leadService: LeadsServices) {}
   
-    index: Handler = async (req, res, next) => {
+  
+  index: Handler = async (req, res, next) => {
     try {
       const query = GetLeadsRequestSchema.parse(req.query)
-      const { page = "1", pageSize = "10", name, status, sortBy = "name", order = "asc" } = query
-
-      const limit = Number(pageSize)
-      const offset = (Number(page) - 1) * limit
-      
-
-      const where: LeadWhereParams = {}
-
-      if (name) where.name = { like: name, mode: "insensitive" }
-      if (status) where.status = status
-
-      const leads = await this.leadsRepository.find({where, sortBy, order, limit, offset})
-
-      const total = await this.leadsRepository.count(where)
-      //const leads = await prisma.lead.findMany({
-       // where,
-      //  skip: (pageNumber - 1) * pageSizeNumber,
-      //  take: pageSizeNumber,
-      //  orderBy: { [sortBy]: order }
-     // })
-
-     // const total = await prisma.lead.count({ where })
+      const { page = "1", pageSize = "10"} = query
   
-
-      res.json({
-        data: leads,
-        meta: {
-          page: Number(page),
-          pageSize: limit,
-          total,
-          totalPages: Math.ceil(total / limit)
-        }
+      const result = await this.leadService.getAllLeadsPaginated({
+        ...query,
+        page: +page,
+        pageSize: +pageSize,
       })
+      res.json(result)
     } catch (error) {
       next(error)
     }
   }
 
-    create: Handler = async (req, res, next) => {
+
+  create: Handler = async (req, res, next) => {
     try {
       const body = CreateLeadRequestSchema.parse(req.body)
-      if(!body.status) body.status = "New"
-      const newLead = await this.leadsRepository.create(body)
-
+      const newLead = await this.leadService.CreateLead(body)
       res.status(201).json(newLead)
     } catch (error) {
       next(error)
     }
   }
 
-    show: Handler = async (req, res, next) => {
+
+  show: Handler = async (req, res, next) => {
     try {
-      const lead = await this.leadsRepository.findById(Number(req.params.id))
-
-      if (!lead) throw new HttpError(404, "lead não encontrado")
-
+      const lead = await this.leadService.getLeadById(+req.params.id)
       res.json(lead)
     } catch (error) {
       next(error)
@@ -77,48 +45,27 @@ export class leadsController {
   }
 
 
-    update: Handler = async (req, res, next) => {
+  update: Handler = async (req, res, next) => {
      try {
-        const id = Number(req.params.id)
-        const body = UpdateLeadRequestSchema.parse(req.body)
-
-        const leadExist = await this.leadsRepository.findById(id)
-        if(!leadExist) throw new HttpError(404, "Lead não encontrado!")
-
-        if(leadExist.status === "New" && body.status !== undefined && body.status!== "Contacted") {
-          throw new HttpError(400, "Um novo lead deve ser contatado antes de ter o seu status atualizado para outros valores!")
-        }
-
-        if(body.status && body.status === "Archived") {
-          const now = new Date()
-          const diffTime = Math.abs(now.getTime() - leadExist.updatedAt.getTime())
-          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
-          if(diffDays < 180) throw new HttpError(400, "Um lead só pode ser arquivado após 6 meses de inatividade!")
-        }
-          
-        const updatedLead = await this.leadsRepository.updateById(id, body)
-        
-
-        res.json(updatedLead)
+      const id = Number(req.params.id)
+      const body = UpdateLeadRequestSchema.parse(req.body) 
+      const updatedLead = this.leadService.updateLead(id, body)
+      res.json(updatedLead)
      } catch (error) {
         next(error)
      }
   }
     
-    delete: Handler = async (req, res, next) => {
-        try {
-           const id = Number(req.params.id)
+  delete: Handler = async (req, res, next) => {
+    try {
+      const id = Number(req.params.id)
+      const deletedLead = await this.leadService.deleteLead(id)
 
-           const leadExist = await this.leadsRepository.findById(id)
-           if (!leadExist) throw new HttpError(404, "Lead não encontrado!")
-
-           const deleteLead = await this.leadsRepository.deleteById(id)
-
-           res.json( {deleteLead} )
-        } catch (error) {
-            next(error)
-        }
-    }
+      res.json( {deletedLead} )
+      } catch (error) {
+        next(error)
+      }
+  }
 }   
     
     

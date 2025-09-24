@@ -3,5 +3,5 @@ import { PrismaGroupRepository } from "../src/repositories/prisma/PrismaGroupsRe
 
 
 // CONTAINER Groups
-export const groupsRepository = new PrismaGroupRepository
+export const groupsRepository = new PrismaGroupRepository()
 export const groupsController = new GroupsController(groupsRepository)

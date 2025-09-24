@@ -4,6 +4,6 @@ import { PrismaLeadsRepository } from "../src/repositories/prisma/PrismaLeadsRep
 
 
 // CONTAINER GroupsLeads
-export const groupsRepository = new PrismaGroupRepository
-export const leadsRepository = new PrismaLeadsRepository
+export const groupsRepository = new PrismaGroupRepository()
+export const leadsRepository = new PrismaLeadsRepository()
 export const groupLeadControll = new GroupLeadsController(groupsRepository, leadsRepository)

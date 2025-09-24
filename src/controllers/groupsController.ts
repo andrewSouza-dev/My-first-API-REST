@@ -1,15 +1,15 @@
 import { Handler } from "express";
 import { CreateGroupRequestSchema, UpdateGroupRequestSchema } from "./schemas/GroupsRequestSchema";
-import { HttpError } from "../errors/HttpError";
 import { GroupsRepository } from "../repositories/GroupsRepository";
+import { GroupServices } from "../services/GroupService";
 
 export class GroupsController {
-    constructor(private readonly groupsRepository: GroupsRepository) { }
+    constructor(private readonly groupsService: GroupServices) { }
 
     index: Handler = async (req, res, next) => {
         try {
-            const groups = await this.groupsRepository.find()
-            res.json(groups)
+            const allGroups = await this.groupsService.getAllGroups()
+            res.json(allGroups)
         } catch (error) {
             next(error)
         }
@@ -19,9 +19,7 @@ export class GroupsController {
     show: Handler = async (req, res, next) => {
         try {
             const id = Number(req.params.id)
-            const group = await this.groupsRepository.findById(id)
-            if(!group) throw new HttpError(404, "Grupo não encontrado")
-
+            const group = await this.groupsService.show(id)
             res.json(group)
         } catch (error) {
             next(error)
@@ -32,8 +30,7 @@ export class GroupsController {
     create: Handler = async (req, res, next) => {
         try {
             const body = CreateGroupRequestSchema.parse(req.body)
-            const newGroup = await this.groupsRepository.create(body)
-
+            const newGroup = await this.groupsService.create(body)
             res.status(201).json(newGroup)
         } catch (error) {
             next(error)
@@ -44,14 +41,8 @@ export class GroupsController {
     update: Handler = async (req, res, next) => {
         try {
             const id = Number(req.params.id)
-
             const body = UpdateGroupRequestSchema.parse(req.body)
-            
-            const updateGroup = await this.groupsRepository.updateById(id, body)
-
-            if(!updateGroup) throw new HttpError(404, "Grupo não encontrado!")
-
-
+            const updateGroup = await this.groupsService.update(id, body)
             res.json(updateGroup)
         } catch (error) {
             next(error)
@@ -62,12 +53,8 @@ export class GroupsController {
     delete: Handler = async (req, res, next) => {
         try {
             const id = Number(req.params.id)
-
-            const deleteGroup = await this.groupsRepository.deleteById(id)
-
-            if(!deleteGroup) throw new HttpError(404, "Grupo não encontrado!")
-
-            res.json( {deleteGroup} )
+            const deletedGroup = await this.groupsService.delete(id)
+            res.json( {deletedGroup} )
         } catch (error) {
             next(error)
         }

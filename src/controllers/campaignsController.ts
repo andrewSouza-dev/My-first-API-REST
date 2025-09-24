@@ -22,9 +22,9 @@ export class CaimpaignController {
       try {
         const id = Number(req.params.id)
 
-        const campaign = await this.campaignRepository.findById(+req.params.id)
+        const campaign = await this.campaignRepository.findById(id)
       
-        if(!campaign) throw new HttpError (404, "Campaign não encontrado!")
+        if(!campaign) throw new HttpError (404, "Campanha não encontrado!")
 
         res.json(campaign)
       } catch (error) {
@@ -71,7 +71,7 @@ export class CaimpaignController {
 
         const deleteCampaign = await this.campaignRepository.deleteById(id)
         
-        if(!deleteCampaign) throw new HttpError(404, "Camapaign não encontrado!")
+        if(!deleteCampaign) throw new HttpError(404, "Camapanha não encontrado!")
  
         res.json({ deleteCampaign })
       } catch (error) {

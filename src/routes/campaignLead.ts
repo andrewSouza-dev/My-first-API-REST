@@ -6,9 +6,10 @@ const routerCL = Router()
 
 
 // ROUTES CampaignsLeads
-routerCL.post("/campaigns/:campaignId/leads", campaignLeadsControll.addLead)
-routerCL.put("/campaigns/:campaignId/leads/:leadId", campaignLeadsControll.updateLeadStatus)
-routerCL.delete("/campaigns/:campaignId/leads/:leadId", campaignLeadsControll.removeLead)
+routerCL.get("/", campaignLeadsControll.getLeads)
+routerCL.post("/", campaignLeadsControll.addLead)
+routerCL.put("/:leadId", campaignLeadsControll.updateLeadStatus)
+routerCL.delete("/:leadId", campaignLeadsControll.removeLead)
 
 
 export { routerCL }

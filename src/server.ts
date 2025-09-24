@@ -14,9 +14,10 @@ app.use(express.json())
 
 app.use("/api/leads", routerL)
 app.use("/api/groups", routerG)
+app.use("/api/groups/:id/leads", routerGL)
 app.use("/api/campaigns", routerC)
-app.use("/api/campaignsLeads", routerCL)
-app.use("/api/groups/:groupId/leads", routerGL)
+app.use("/api/campaigns/:id/leads", routerCL)
+
 
 app.use(errorHandlerMiddleware)
 

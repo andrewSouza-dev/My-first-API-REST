@@ -13,8 +13,8 @@ export interface AddLeadToCampaignAttributes {
   campaignId: number
   leadId: number
   status: LeadStatusCampaign
-
 }
+
 export interface CampaignRepository {
   find: () => Promise<Campaign[]>
   findById: (id: number) => Promise<Campaign | null>
