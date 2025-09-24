@@ -1,14 +1,11 @@
 import { Handler } from "express";
 import { AddLeadRequestSchema, GetCampaignLeadsRequestSchema, UpdateLeadStatusRequestSchema } from "./schemas/CampaignRequestSchema";
-import { CampaignRepository } from "../repositories/CampaignRepository";
-import { LeadsRepository, LeadWhereParams } from "../repositories/LeadRepository";
+import { CampaignLeadService } from "../services/CampaignLeadService";
 
 
 export class CampaignLeadsController {
   constructor(
-    private readonly campaignRepository: CampaignRepository,
-    private readonly leadsRepository: LeadsRepository
-  ) { } 
+    private readonly campaignLeadService: CampaignLeadService) { } 
 
   getLeads: Handler = async (req, res, next) => {
     try {
