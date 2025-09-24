@@ -8,6 +8,7 @@ interface GetLeadsWithPagination {
     status?: LeadsStatus
     sortBy?: "name" | "status" | "createdAt"
     order?: "asc" | "desc"
+    groupId: number
      
 }
 
@@ -25,6 +26,7 @@ export class GroupLeadService {
       const offset = (page - 1) * limit
       
       const where: LeadWhereParams = {  } 
+
       
       if (name) where.name = { like: name, mode: "insensitive" }
       if (status) where.status =  status 
@@ -36,8 +38,8 @@ export class GroupLeadService {
         limit, 
         offset,
         include: { groups: true} })
-
-      const total = await this.leadsRepository.count( where )
+      
+      const total = await this.leadsRepository.count(where)
         
       return {
         leads,

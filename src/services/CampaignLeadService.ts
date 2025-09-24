@@ -1,15 +1,13 @@
 import { AddLeadToCampaignAttributes, CampaignRepository, LeadStatusCampaign } from "../repositories/CampaignRepository";
 import { LeadsRepository, LeadWhereParams } from "../repositories/LeadRepository";
 
-
-interface GetLeadsWithPagination {
+interface GetLeadWithPagination {
     page?: number
     pageSize?: number
     name?: string
     status?: LeadStatusCampaign
     sortBy?: "name" | "status" | "createdAt"
-    order?: "asc" | "desc"
-     
+    order?: "asc" | "desc" 
 }
 
 
@@ -20,14 +18,14 @@ export class CampaignLeadService {
     ) {}
 
 
-    async allLeadsCampaign (params: GetLeadsWithPagination) {
+    async allLeadsCampaign (params: GetLeadWithPagination) {
       const { name, status, page = 1, pageSize = 10, sortBy , order } = params
 
       const limit = pageSize
       const offset = (page - 1) * limit
 
      
-      const where: LeadWhereParams = { status }
+      const where: LeadWhereParams = { campaignStatus: status }
 
       if (name) where.name = { like: name, mode: "insensitive" }
 
@@ -37,10 +35,7 @@ export class CampaignLeadService {
         order,
         limit,
         offset,
-        include: {
-           campaigns: true
-       }
-       })
+        include: { campaigns: true }})
 
       const total = await this.leadsRepository.count(where)
 

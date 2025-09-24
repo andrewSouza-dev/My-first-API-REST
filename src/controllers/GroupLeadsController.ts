@@ -19,6 +19,7 @@ export class GroupLeadsController {
         ...query,
         page: +page,
         pageSize: +pageSize,
+        groupId,
       })
       res.json(result)      
     }catch (error) {

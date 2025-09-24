@@ -49,7 +49,7 @@ export class leadsController {
      try {
       const id = Number(req.params.id)
       const body = UpdateLeadRequestSchema.parse(req.body) 
-      const updatedLead = this.leadService.updateLead(id, body)
+      const updatedLead = await this.leadService.updateLead(id, body)
       res.json(updatedLead)
      } catch (error) {
         next(error)

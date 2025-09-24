@@ -1,6 +1,7 @@
 import { Handler } from "express";
 import { AddLeadRequestSchema, GetCampaignLeadsRequestSchema, UpdateLeadStatusRequestSchema } from "./schemas/CampaignRequestSchema";
 import { CampaignLeadService } from "../services/CampaignLeadService";
+import { LeadCampaignStatus } from "@prisma/client";
 
 
 export class CampaignLeadsController {
@@ -9,9 +10,16 @@ export class CampaignLeadsController {
 
   getLeads: Handler = async (req, res, next) => {
     try {
-      const campaingId = Number(req.params.campaignId)
       const query = GetCampaignLeadsRequestSchema.parse(req.query)
       
+      const { page = "1", pageSize = "10"} = query
+      
+      const result = await this.campaignLeadService.allLeadsCampaign({
+      ...query,
+      page: +page,
+      pageSize: +pageSize,
+      })
+      res.json(result)   
     } catch (error) {
       next(error)
     }
@@ -22,10 +30,11 @@ export class CampaignLeadsController {
   addLead: Handler = async (req, res, next) => {
     try {
       const campaignId = Number(req.params.id)
-      const { leadId, status = "New" } = AddLeadRequestSchema.parse(req.body)
-     
+      const leadId = Number(req.params.leadId)
+      const status = "New" 
 
-      res.status(201).send({ message: "Lead adicionado com sucesso!"})
+      const addLead = await this.campaignLeadService.addLead({campaignId, leadId, status})
+      res.status(201).json(addLead)
     } catch (error) {
       next(error)
     }
@@ -33,12 +42,12 @@ export class CampaignLeadsController {
 
   updateLeadStatus: Handler = async (req, res, next) => {
     try {
-      const campaignId = Number(req.params.campaignId)
+      const campaignId = Number(req.params.id)
       const leadId = Number(req.params.leadId)
-      const { status } = UpdateLeadStatusRequestSchema.parse(req.body)
-      
+      const status = "New"
 
-      res.status(204).json({ message: "Status do lead atualizado com sucesso!"})
+      const updatedLead = await this.campaignLeadService.updateLeadStatus({campaignId, leadId, status})
+      res.status(204).json(updatedLead)
     } catch (error) {
       next(error)
     }
@@ -48,9 +57,9 @@ export class CampaignLeadsController {
     try {
       const campaignId = Number(req.params.campaignId)
       const leadId = Number(req.params.leadId)
-     
 
-      res.json({ message: "Lead removido da campanha com sucesso!" })
+      const removedLead = await this.campaignLeadService.removeLead(campaignId, leadId)
+      res.json({ removedLead })
     } catch (error) {
       next(error)
     }
