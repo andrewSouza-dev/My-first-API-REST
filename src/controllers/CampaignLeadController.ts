@@ -1,5 +1,5 @@
 import { Handler } from "express";
-import { AddLeadRequestSchema, GetCampaignLeadsRequestSchema, UpdateLeadStatusRequestSchema } from "./schemas/CampaignRequestSchema";
+import { AddLeadRequestSchema, CampaignLeadParamsSchema, GetCampaignLeadsRequestSchema, UpdateLeadStatusRequestSchema } from "./schemas/CampaignRequestSchema";
 import { CampaignLeadService } from "../services/CampaignLeadService";
 
 
@@ -33,15 +33,14 @@ export class CampaignLeadsController {
 // Adicionar lead à campanha
   addLead: Handler = async (req, res, next) => {
     try {
-      const campaignId = Number(req.params.campaignId)
+      const { campaignId } =  CampaignLeadParamsSchema.parse(req.params)
+
       const { leadId, status } = AddLeadRequestSchema.parse(req.body)
       
-      const leadStatus = status ?? "New"
-
       const addLead = await this.campaignLeadService.addLead({
         campaignId,
         leadId,
-        status: leadStatus
+        status: status ?? "New"
       })
 
       res.status(201).json(addLead)

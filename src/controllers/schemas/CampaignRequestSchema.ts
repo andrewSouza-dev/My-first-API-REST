@@ -42,11 +42,16 @@ export const GetCampaignLeadsRequestSchema = z.object({
 })
 
 export const AddLeadRequestSchema = z.object({
-  leadId: z.coerce.number(),
+  leadId: z.number(),
   status: LeadCampaignStatusSchema.optional(),
-  campaignId: z.coerce.number()
 })
 
 export const UpdateLeadStatusRequestSchema = z.object({
   status: LeadCampaignStatusSchema
 })
+
+export const CampaignLeadParamsSchema = z.object ({
+   campaignId: z.coerce.number()
+})
+
+

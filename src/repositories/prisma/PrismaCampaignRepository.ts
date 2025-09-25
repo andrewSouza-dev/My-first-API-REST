@@ -50,10 +50,10 @@ export class PrismaCampaignRepository implements CampaignRepository {
  
 // CampaignsLeads
     async addLead(attributes: AddLeadToCampaignAttributes): Promise<void> {
-        await prisma.leadCampaign.create({ 
+         await prisma.leadCampaign.create({ 
             data: {
-              leadId: attributes.leadId,
               campaignId: attributes.campaignId,
+              leadId: attributes.leadId,
               status: attributes.status
             }
         })
@@ -62,7 +62,7 @@ export class PrismaCampaignRepository implements CampaignRepository {
     async removeLead(campaignId: number, leadId: number): Promise<void> {
         await prisma.leadCampaign.delete({ 
             where: { 
-                leadId_campaignId: { campaignId, leadId }
+                leadId_campaignId: { leadId, campaignId }
             }
         })      
     }
@@ -71,8 +71,9 @@ export class PrismaCampaignRepository implements CampaignRepository {
             data: { status: attributes.status } ,
             where: {
                 leadId_campaignId: {
-                    campaignId: attributes.campaignId,
                     leadId: attributes.leadId,
+                    campaignId: attributes.campaignId,
+                    
                 }
             }
         })
