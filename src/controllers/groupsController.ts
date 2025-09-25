@@ -42,7 +42,7 @@ export class GroupsController {
             const id = Number(req.params.id)
             const body = UpdateGroupRequestSchema.parse(req.body)
             const updateGroup = await this.groupsService.update(id, body)
-            res.json(updateGroup)
+            res.json({updateGroup})
         } catch (error) {
             next(error)
         }

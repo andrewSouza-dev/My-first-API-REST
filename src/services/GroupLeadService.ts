@@ -54,6 +54,9 @@ export class GroupLeadService {
   
 
     async addLead (groupId: number, leadId: number) {
+       const group = await this.groupsRepository.findById(groupId);
+       if (!group) throw new Error("Grupo não encontrado");
+       
        const newLeadGroup = await this.groupsRepository.addLead(groupId, leadId)
        return newLeadGroup
 

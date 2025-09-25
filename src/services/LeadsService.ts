@@ -84,7 +84,9 @@ export class LeadsServices {
     const leadExist = await this.leadsRepository.findById(leadId)
     if (!leadExist) throw new HttpError(404, "Lead não encontrado!")
 
-    return leadExist
+    const deleteLead = await this.leadsRepository.deleteById(leadId)
+
+    return deleteLead
   }
   
 }

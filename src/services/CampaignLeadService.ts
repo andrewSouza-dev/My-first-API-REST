@@ -8,6 +8,7 @@ interface GetLeadWithPagination {
     status?: LeadStatusCampaign
     sortBy?: "name" | "status" | "createdAt"
     order?: "asc" | "desc" 
+    campaignId: number
 }
 
 

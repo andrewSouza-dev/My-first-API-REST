@@ -9,8 +9,8 @@ const routerG = Router()
 routerG.get("/", groupsController.index)
 routerG.get("/:id", groupsController.show)
 routerG.post("/", groupsController.create)
-routerG.put("/", groupsController.update)
-routerG.delete("/", groupsController.delete)
+routerG.put("/:id", groupsController.update)
+routerG.delete("/:id", groupsController.delete)
 
 
 export { routerG }

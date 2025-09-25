@@ -18,8 +18,8 @@ export class PrismaLeadsRepository implements LeadsRepository {
       where.groups = { some: { id: params.where.groupId } }
     }
 
-    if (params.where?.campaingId) {
-      where.campaigns = { some: { campaignId: params.where.campaingId } }
+    if (params.where?.campaignId) {
+      where.campaigns = { some: { campaignId: params.where.campaignId } }
      }
       return prisma.lead.findMany({
       where,
@@ -33,7 +33,7 @@ export class PrismaLeadsRepository implements LeadsRepository {
     })
   }
 
-  findById(id: number): Promise<Lead | null> {
+ async findById(id: number): Promise<Lead | null> {
     return prisma.lead.findUnique({
       where: {id},
       include: {
@@ -57,8 +57,8 @@ export class PrismaLeadsRepository implements LeadsRepository {
       prismaWhere.groups = { some: { id: where.groupId } }
     }
 
-    if (where?.campaingId) {
-      prismaWhere.campaigns = { some: { campaignId: where.campaingId } }
+    if (where?.campaignId) {
+      prismaWhere.campaigns = { some: { campaignId: where.campaignId } }
     }
 
     return prisma.lead.count({ where: prismaWhere })
@@ -69,14 +69,14 @@ export class PrismaLeadsRepository implements LeadsRepository {
     return prisma.lead.create({ data: attributes })
   }
 
-  updateById(id: number, attributes: Partial<CreateLeadAttributes>): Promise<Lead> {
+  async updateById(id: number, attributes: Partial<CreateLeadAttributes>): Promise<Lead> {
     return prisma.lead.update({
       where: { id },
       data: attributes
     })
   }
 
-  deleteById(id: number): Promise<Lead> {
+  async deleteById(id: number): Promise<Lead> {
     return prisma.lead.delete({where: {id}})
   }
 }

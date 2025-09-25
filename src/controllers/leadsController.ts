@@ -37,7 +37,8 @@ export class leadsController {
 
   show: Handler = async (req, res, next) => {
     try {
-      const lead = await this.leadService.getLeadById(+req.params.id)
+      const id = Number(req.params.id)
+      const lead = await this.leadService.getLeadById(id)
       res.json(lead)
     } catch (error) {
       next(error)

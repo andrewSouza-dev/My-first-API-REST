@@ -46,6 +46,9 @@ export class PrismaCampaignRepository implements CampaignRepository {
         return prisma.campaign.delete({where: {id}})
     }
 
+ 
+ 
+// CampaignsLeads
     async addLead(attributes: AddLeadToCampaignAttributes): Promise<void> {
         await prisma.leadCampaign.create({ 
             data: {

@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { groupLeadControll } from "../../containers/groupLeadContainer";
 
-export const routerGL = Router()
+export const routerGL = Router({mergeParams: true})
 
 
 // ROUTES GroupsLeads

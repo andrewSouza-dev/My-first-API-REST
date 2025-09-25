@@ -1,3 +1,4 @@
+
 import { HttpError } from "../errors/HttpError"
 import { CreateGroupAttributes, GroupsRepository } from "../repositories/GroupsRepository"
 
@@ -27,8 +28,9 @@ export class GroupServices {
         const group = await this.groupsRepository.findById(id)
         if(!group) throw new HttpError(404, "Grupo não encontrado!")
 
-        const updateGroup = await this.groupsRepository.updateById(id, params)
-        return updateGroup
+        const updatedGroup = await this.groupsRepository.updateById(id, params)
+        if (!updatedGroup) throw new Error("Erro ao atualizar o grupo")
+        return updatedGroup
     }
 
 

@@ -2,7 +2,7 @@ import { Router } from "express";
 import { campaignLeadsControll } from "../../containers/compaignLeadContainer";
 
 
-const routerCL = Router()
+const routerCL = Router({ mergeParams: true})
 
 
 // ROUTES CampaignsLeads
