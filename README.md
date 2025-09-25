@@ -1,4 +1,4 @@
-# 📌 Primeira API REST com Node.js, TypeScript e Prisma
+# 📌 Primeira API RESTful com Node.js, TypeScript e Prisma
 
 Este é um projeto de exemplo de uma **API RESTful** construída com:
 - [Node.js](https://nodejs.org/)
