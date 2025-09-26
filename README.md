@@ -22,6 +22,6 @@ Este é um projeto de exemplo de uma **API RESTful** construída com:
 Clone o repositório e instale as dependências:
 
 ```bash
-git clone https://github.com/seu-usuario/sua-primeira-api.git
-cd sua-primeira-api
+git clone https://github.com/andrewSouza-dev/My-first-API-REST.git
+cd My-first-API-REST
 npm install
