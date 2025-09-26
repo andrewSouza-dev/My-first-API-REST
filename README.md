@@ -12,7 +12,9 @@ Este é um projeto de exemplo de uma **API RESTful** construída com:
 
 - CRUD de **Leads**
 - CRUD de **Campanhas**
+- CRUD de **Grupos**
 - Relacionamento **Leads x Campanhas**
+- Relacionamento **Leads x Grupos**
 - Conexão com banco de dados via **Prisma**
 
 ---
